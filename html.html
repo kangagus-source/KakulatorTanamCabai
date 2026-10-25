@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ChiliNutri Pro — Agronomi & Keuangan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#16a34a; --green-dark:#15803d; --green-light:#dcfce7; --green-bg:#f0fdf4;
+  --red:#dc2626; --red-dark:#991b1b; --red-light:#fee2e2;
+  --amber:#d97706; --amber-dark:#92400e; --amber-light:#fef3c7;
+  --blue:#2563eb; --blue-dark:#1e40af; --blue-light:#dbeafe;
+  --purple:#7c3aed; --purple-dark:#5b21b6; --purple-light:#ede9fe;
+  --text:#111827; --text-muted:#6b7280; --text-light:#9ca3af;
+  --border:#e5e7eb; --border-strong:#d1d5db;
+  --surface:#ffffff; --surface-alt:#f9fafb; --surface-muted:#f3f4f6;
+  --shadow:0 1px 3px rgba(0,0,0,.06); --shadow-lg:0 4px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#ffffff;color:var(--text);min-height:100vh;padding-bottom:30px;font-size:14px}
+
+/* HEADER */
+.app-header{position:sticky;top:0;z-index:50;background:#ffffff;border-bottom:1px solid var(--border);box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.header-content{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px 10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:34px;height:34px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;box-shadow:0 2px 6px rgba(22,163,74,.3)}
+.brand-title{font-size:13px;font-weight:700;color:var(--text)}
+.brand-sub{font-size:10px;color:var(--text-muted);font-family:monospace}
+.page-nav{display:flex;gap:6px;padding:0 16px 10px;max-width:900px;margin:0 auto}
+.nav-btn{flex:1;padding:9px 12px;background:var(--surface-muted);border:1px solid var(--border);color:var(--text-muted);font-size:12px;font-weight:700;cursor:pointer;border-radius:9px;transition:.15s}
+.nav-btn.active{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 2px 6px rgba(22,163,74,.25)}
+.nav-btn:active{transform:scale(.97)}
+
+/* PAGE */
+.page{display:none;animation:fadeIn .2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.main-container{max-width:900px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.card-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:8px}
+.card-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.card-sub{font-size:10px;color:var(--text-light);font-family:monospace}
+
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:11px;color:var(--text-muted);font-weight:500}
+.input-text,.input-date,.select-disease{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:monospace;outline:none;width:100%}
+.input-text:focus,.input-date:focus,.select-disease:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-light)}
+
+.stepper-box{display:flex;align-items:center;gap:6px}
+.btn-step{width:26px;height:26px;background:var(--surface-muted);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:12px;cursor:pointer;font-weight:700}
+.btn-step:active{transform:scale(.92)}
+.hst-badge{font-family:monospace;font-weight:700;color:var(--green-dark);background:var(--green-light);padding:4px 10px;border-radius:6px;border:1px solid var(--green);font-size:12px}
+input[type=range]{width:100%;height:6px;background:var(--surface-muted);border-radius:4px;-webkit-appearance:none;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:18px;width:18px;border-radius:50%;background:var(--green);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+
+.btn-copy{background:var(--surface);border:1px solid var(--border);color:var(--text-muted);padding:6px 12px;border-radius:8px;font-size:11px;cursor:pointer;transition:.2s;font-weight:600}
+.btn-copy:active{transform:scale(.95)}
+
+.phase-banner{background:linear-gradient(135deg,var(--green-bg) 0%,#fff 100%);border:1px solid var(--green);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.phase-tag{font-size:9px;font-weight:700;text-transform:uppercase;color:var(--green-dark);background:var(--green-light);padding:2px 8px;border-radius:20px;border:1px solid var(--green);display:inline-block;width:fit-content}
+.phase-title{font-size:14px;font-weight:700;color:var(--text)}
+.phase-desc{font-size:11px;color:var(--text-muted);line-height:1.4}
+
+.item-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;gap:8px}
+.item-row.active{border-color:var(--green);background:var(--green-bg);box-shadow:0 0 0 2px var(--green-light)}
+.item-title{font-size:12px;font-weight:600;color:var(--text)}
+.item-sub{font-size:10px;color:var(--text-muted)}
+.item-val{font-size:13px;font-family:monospace;font-weight:700;color:var(--green-dark);text-align:right;white-space:nowrap}
+
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.rec-card{background:var(--green-bg);border:1px solid var(--green-light);border-radius:10px;padding:10px}
+.rec-type{font-size:9px;font-weight:700;color:var(--green-dark);text-transform:uppercase}
+.rec-name{font-size:12px;font-weight:700;margin:2px 0;color:var(--text)}
+.rec-desc{font-size:10px;color:var(--text-muted)}
+
+.disease-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.disease-tag{font-size:9px;font-weight:700;color:var(--red-dark);background:var(--red-light);border:1px solid var(--red);padding:2px 8px;border-radius:20px;display:inline-block;width:fit-content;text-transform:uppercase}
+.disease-title{font-size:13px;font-weight:700;color:var(--text)}
+.disease-section-title{font-size:10px;font-weight:700;color:var(--amber-dark);text-transform:uppercase;margin-top:6px}
+.disease-list{font-size:11px;color:#374151;padding-left:16px;line-height:1.5}
+
+.filter-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.filter-btn{background:var(--surface-alt);border:1px solid var(--border);color:var(--text-muted);padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;white-space:nowrap;transition:.15s;font-weight:600}
+.filter-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+
+.pest-item{background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px}
+.pest-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.pest-target{font-size:12px;font-weight:700;color:var(--text)}
+.pest-cat-badge{font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.cat-insektisida{background:var(--red-light);color:var(--red-dark)}
+.cat-fungisida{background:var(--amber-light);color:var(--amber-dark)}
+.cat-bakterisida{background:var(--blue-light);color:var(--blue-dark)}
+.cat-akarisida{background:var(--purple-light);color:var(--purple-dark)}
+.cat-biopestisida{background:var(--green-light);color:var(--green-dark)}
+.pest-detail{font-size:10px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+.pest-detail strong{color:var(--text)}
+.pest-merek{font-size:11px;color:var(--green-dark);font-family:monospace;margin-top:4px;font-weight:600}
+.pest-dosis{font-size:10px;color:var(--blue-dark);margin-top:6px;background:var(--blue-light);padding:4px 8px;border-radius:4px;display:inline-block;font-weight:600;}
+.gol-badge{display:inline-block;font-family:monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:var(--surface-muted);color:var(--text-muted);margin-left:4px}
+
+.rot-item{display:flex;gap:10px;padding:8px 10px;background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;align-items:center}
+.rot-week{font-family:monospace;font-weight:700;color:var(--amber-dark);font-size:11px;min-width:42px;background:var(--amber-light);padding:3px 6px;border-radius:4px;text-align:center}
+.rot-body{flex:1}
+.rot-product{font-size:12px;font-weight:600;color:var(--text)}
+.rot-target{font-size:10px;color:var(--text-muted);margin-top:1px}
+
+.poc-hero{background:linear-gradient(135deg,var(--green-light) 0%,var(--green-bg) 100%);border-radius:12px;padding:14px;border:1px solid var(--green)}
+.poc-hero-title{font-size:14px;font-weight:700;color:var(--text)}
+.poc-hero-sub{font-size:10px;color:var(--green-dark);margin-top:3px}
+
+.ing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:4px}
+.ing-card{background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:8px}
+.ing-name{font-size:10px;color:var(--text-muted);font-weight:600}
+.ing-val{font-size:13px;font-family:monospace;font-weight:700;color:var(--green-dark);margin-top:2px}
+.ing-note{font-size:9px;color:var(--text-light);margin-top:2px}
+
+.step-list{counter-reset:step;list-style:none;padding:0}
+.step-list li{counter-increment:step;position:relative;padding:8px 8px 8px 32px;font-size:11px;color:#374151;line-height:1.5;border-bottom:1px solid var(--border)}
+.step-list li:last-child{border-bottom:0}
+.step-list li::before{content:counter(step);position:absolute;left:6px;top:8px;width:18px;height:18px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+
+.poc-warn{background:var(--amber-light);border:1px solid var(--amber);border-radius:8px;padding:8px;font-size:10px;color:var(--amber-dark);line-height:1.5}
+.poc-ok{background:var(--green-light);border:1px solid var(--green);border-radius:8px;padding:8px;font-size:10px;color:var(--green-dark);line-height:1.5}
+
+.poc-calc-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}
+.poc-calc-label{font-size:10px;color:var(--text-muted);flex:1}
+.poc-calc-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-size:11px;font-family:monospace;width:80px;text-align:right;outline:none}
+.poc-calc-input:focus{border-color:var(--green);box-shadow:0 0 0 2px var(--green-light)}
+.poc-calc-result{background:linear-gradient(135deg,var(--green-light) 0%,var(--green-bg) 100%);border:1px solid var(--green);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.poc-result-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;gap:8px}
+.poc-result-label{color:var(--green-dark)}
+.poc-result-val{font-family:monospace;font-weight:700;color:var(--text);white-space:nowrap}
+.poc-result-val.big{font-size:14px;color:var(--green-dark)}
+.poc-bahan-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:4px}
+
+/* FINANCE */
+.finance-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fin-card{background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.fin-card.fin-in{border-color:var(--green-light);background:var(--green-bg)}
+.fin-card.fin-out{border-color:var(--red-light);background:#fef2f2}
+.fin-card.fin-bal{border-width:2px;transition:.3s}
+.fin-card.fin-bal.profit{border-color:var(--green);background:var(--green-bg)}
+.fin-card.fin-bal.loss{border-color:var(--red);background:var(--red-light)}
+.fin-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;font-weight:700}
+.fin-val{font-size:15px;font-family:monospace;font-weight:700}
+.fin-card.fin-in .fin-val{color:var(--green-dark)}
+.fin-card.fin-out .fin-val{color:var(--red-dark)}
+.fin-card.fin-bal.profit .fin-val{color:var(--green-dark)}
+.fin-card.fin-bal.loss .fin-val{color:var(--red-dark)}
+.fin-sub{font-size:9px;color:var(--text-muted)}
+
+.finance-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fin-panel{background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.fin-panel-title{font-size:11px;font-weight:700;text-transform:uppercase}
+.add-form{display:flex;flex-direction:column;gap:4px;padding-bottom:8px;border-bottom:1px dashed var(--border)}
+.add-form .input-text,.add-form .input-date,.add-form .select-disease{font-size:11px;padding:6px 8px}
+
+.ledger-list{display:flex;flex-direction:column;gap:4px;max-height:220px;overflow-y:auto}
+.ledger-row{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;gap:6px;font-size:10px}
+.ledger-row > div:first-child{flex:1;min-width:0}
+.lr-name{font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px}
+.lr-detail{font-size:9px;color:var(--text-muted);margin-top:1px}
+.lr-val{font-family:monospace;font-weight:700;color:var(--text);white-space:nowrap;font-size:11px}
+.lr-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:13px;padding:0 4px;line-height:1}
+.ledger-total{display:flex;justify-content:space-between;padding:8px;background:var(--surface);border-radius:6px;font-size:11px;font-weight:700;border:1px solid var(--border);margin-top:4px}
+
+.sim-item{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:4px;font-size:10px}
+.sim-item-name{flex:1 1 100%;font-weight:700;color:var(--text);font-size:11px}
+.sim-item-need{color:var(--text-muted);font-family:monospace;min-width:70px;font-size:11px}
+.sim-input-group{display:flex;flex:1 1 auto;gap:4px;align-items:center}
+.sim-price{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 6px;color:var(--text);font-size:10px;font-family:monospace;outline:none;text-align:right;min-width:60px}
+.sim-unit{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text);font-size:10px;outline:none;cursor:pointer}
+.sim-price:focus,.sim-unit:focus{border-color:var(--green);box-shadow:0 0 0 2px var(--green-light)}
+.sim-cost{font-family:monospace;font-weight:700;color:var(--amber-dark);min-width:75px;text-align:right;font-size:11px}
+.sim-add{width:auto;padding:4px 10px;font-size:12px;background:var(--green);color:#fff;border-color:var(--green)}
+
+.sim-total-bar{display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--amber-light);border:1px solid var(--amber);border-radius:8px;margin-top:8px;gap:8px;flex-wrap:wrap}
+.sim-total-label{font-size:10px;color:var(--amber-dark);font-weight:700;text-transform:uppercase}
+.sim-total-val{font-family:monospace;font-weight:700;color:var(--amber-dark);font-size:14px}
+
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:11px;font-weight:700;padding:10px 18px;border-radius:20px;opacity:0;pointer-events:none;transition:.3s;z-index:100;max-width:90vw;text-align:center;box-shadow:0 4px 12px rgba(22,163,74,.3)}
+#toast.show{opacity:1}
+#toast.err{background:var(--red);box-shadow:0 4px 12px rgba(220,38,38,.3)}
+
+@media (min-width:640px){
+  .grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-params{display:grid;grid-template-columns:1fr 2fr;gap:16px}
+}
+@media (max-width:639px){
+  .grid-2-col{display:flex;flex-direction:column;gap:16px}
+  .grid-params{display:flex;flex-direction:column;gap:16px}
+  .finance-summary{grid-template-columns:1fr}
+  .finance-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-content">
+    <div class="brand">
+      <div class="brand-icon">🌶️</div>
+      <div>
+        <div class="brand-title">ChiliNutri Pro</div>
+        <div class="brand-sub">Agronomi & Keuangan</div>
+      </div>
+    </div>
+    <button onclick="copyToClipboard()" class="btn-copy" aria-label="Salin dosis pupuk">📋 Salin Dosis</button>
+  </div>
+  <nav class="page-nav">
+    <button class="nav-btn active" data-page="agronomi" onclick="switchPage('agronomi')">🌱 Agronomi</button>
+    <button class="nav-btn" data-page="keuangan" onclick="switchPage('keuangan')">💰 Keuangan</button>
+  </nav>
+</header>
+
+<!-- ============ HALAMAN 1: AGRONOMI ============ -->
+<main id="page-agronomi" class="page active">
+<div class="main-container">
+
+  <div class="grid-params">
+    <section class="card">
+      <div class="card-header">
+        <span class="card-title">⚙️ Parameter Lahan</span>
+        <span class="card-sub" id="saveIndicator">auto-save</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="tglTanamInput">Tanggal Tanam</label>
+        <input type="date" id="tglTanamInput" class="input-date">
+      </div>
+      <div class="form-group">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label class="form-label" for="hstRange">Umur (HST)</label>
+          <div class="stepper-box">
+            <button onclick="adjustHST(-1)" class="btn-step" aria-label="Kurangi HST">−</button>
+            <span id="hstVal" class="hst-badge">15 HST</span>
+            <button onclick="adjustHST(1)" class="btn-step" aria-label="Tambah HST">+</button>
+          </div>
+        </div>
+        <input type="range" id="hstRange" min="1" max="150" value="15" style="margin-top:8px;">
+        <button onclick="syncHSTFromDate()" class="btn-copy" style="margin-top:6px;font-size:10px;">🔄 Sinkron dari tanggal tanam</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="form-group">
+          <label class="form-label" for="pohonInput">Populasi (Pohon)</label>
+          <input type="number" id="pohonInput" value="100" class="input-text" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="emberInput">Ember (Liter)</label>
+          <input type="number" id="emberInput" value="16" class="input-text" min="1">
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <section class="phase-banner">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span id="badgeText" class="phase-tag">Fase Vegetatif Awal</span>
+          <span class="card-sub">pH: <strong id="phText" style="color:var(--green-dark);">6.0 - 6.8</strong></span>
+        </div>
+        <h2 id="titleText" class="phase-title">Pembentukan Akar & Klorofil Daun</h2>
+        <p id="descText" class="phase-desc">Mempercepat pembentukan akar baru dan menghijaukan daun.</p>
+      </section>
+      
+      <!-- CUSTOM RINGKASAN -->
+      <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed var(--border);padding-bottom:6px;">
+          <span style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">📊 Ringkasan Kebutuhan</span>
+          <span style="font-size:10px;font-family:monospace;color:var(--green-dark);font-weight:700;">Total ${pohonInput.value} Tanaman</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:11px;color:var(--text);">Total Air Larutan</span>
+          <strong id="totalWaterText" style="font-family:monospace;color:var(--green-dark);font-size:13px;">-</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:11px;color:var(--text);">Ember Dibutuhkan</span>
+          <strong id="totalEmberText" style="font-family:monospace;color:var(--amber-dark);font-size:13px;">-</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:11px;color:var(--text);">Jadwal Berikutnya</span>
+          <strong id="nextDateText" style="font-family:monospace;color:var(--blue-dark);font-size:13px;">-</strong>
+        </div>
+        <div style="margin-top:4px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--blue-dark);line-height:1.5;" id="tankInfoBanner">
+          <!-- JS Info Kapasitas Tangki -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="grid-2-col">
+    <section class="card">
+      <div class="card-header">
+        <span class="card-title">📅 Timeline Pemupukan</span>
+        <span class="card-sub">Interval 7-10 hari</span>
+      </div>
+      <div id="scheduleContainer" style="max-height:280px;overflow-y:auto;"></div>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <span class="card-title">🧪 Kalkulator Dosis</span>
+        <span class="card-sub">Resep Presisi</span>
+      </div>
+      <div id="recipeContainer" style="max-height:280px;overflow-y:auto;"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title">🛒 Rekomendasi Pupuk Komersial</span>
+    </div>
+    <div id="recommendationGrid" class="rec-grid"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title" style="color:var(--green-dark);">🧪 Resep POC Air Cucian Beras + Molase + EM4</span>
+      <span class="card-sub">Fermentasi DIY</span>
+    </div>
+    <div class="poc-hero">
+      <div class="poc-hero-title">🌾 POC Air Cucian Beras Fermentasi</div>
+      <div class="poc-hero-sub">Alternatif ekonomis — sumber mikroba, hormon, vitamin, dan unsur hara mikro untuk cabai</div>
+    </div>
+    <div>
+      <div class="disease-section-title" style="color:var(--green-dark);">📋 Bahan (untuk 10 Liter)</div>
+      <div class="ing-grid">
+        <div class="ing-card"><div class="ing-name">Air Cucian Beras</div><div class="ing-val">10 L</div><div class="ing-note">Cucian ke-1 & ke-2</div></div>
+        <div class="ing-card"><div class="ing-name">Molase / Gula Merah</div><div class="ing-val">100–200 ml</div><div class="ing-note">≈200g gula merah cair</div></div>
+        <div class="ing-card"><div class="ing-name">EM4 Pertanian</div><div class="ing-val">50–100 ml</div><div class="ing-note">Beli di kios tani</div></div>
+        <div class="ing-card"><div class="ing-name">Wadah Tertutup</div><div class="ing-val">1 buah</div><div class="ing-note">Jeriken / drigen 20 L</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="disease-section-title">🛠️ Cara Membuat</div>
+      <ol class="step-list">
+        <li>Tampung <strong>air cucian beras pertama dan kedua</strong>. Diamkan 30 menit agar endapan pati terkumpul.</li>
+        <li>Masukkan air cucian beras ke jeriken, tambahkan molase/gula merah cair, aduk rata.</li>
+        <li>Tambahkan <strong>EM4 Pertanian</strong> 50–100 ml. Aduk kembali sampai homogen.</li>
+        <li>Tutup wadah (jangan terlalu rapat — beri lubang kecil untuk gas keluar). Simpan di tempat teduh.</li>
+        <li>Fermentasi <strong>7–14 hari</strong>. Setiap 1–2 hari, <strong>buka tutupnya</strong> untuk membuang gas.</li>
+        <li>POC jadi jika: <strong>bau asam segar</strong>, warna coklat keruh, ada lapisan putih tipis di permukaan.</li>
+      </ol>
+    </div>
+    <div class="poc-ok">✅ <strong>Ciri POC berhasil:</strong> bau asam manis/segar, tidak busuk, tidak berlendir tebal, tidak hitam pekat.</div>
+    <div class="poc-warn">⚠️ <strong>Peringatan:</strong> jangan tutup rapat tanpa lubang gas (bisa meledak). Jangan pakai air beras basi.</div>
+    <div>
+      <div class="disease-section-title" style="color:var(--blue-dark);">💧 Cara Aplikasi ke Cabai</div>
+      <ul class="disease-list">
+        <li><strong>Dosis:</strong> 100–200 ml POC per 1 liter air, kocor 200–300 ml/tanaman.</li>
+        <li><strong>Frekuensi:</strong> tiap 7–10 hari, selang-seling dengan NPK.</li>
+        <li><strong>Waktu:</strong> pagi (06.00–09.00) atau sore (16.00–17.30), jangan saat terik.</li>
+        <li><strong>Hindari:</strong> mencampur langsung dengan NPK pekat — beri jeda 2–3 hari.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title" style="color:var(--green-dark);">🧮 Kalkulator Kebutuhan POC</span>
+      <span class="card-sub">Auto dari Populasi</span>
+    </div>
+    <div class="poc-calc-row">
+      <div class="poc-calc-label">Dosis kocor / tanaman <span style="color:var(--text-light);">(larutan)</span></div>
+      <input type="number" id="pocDosis" class="poc-calc-input" value="250" min="100" max="500" step="50">
+      <span style="font-size:10px;color:var(--text-light);width:20px;">ml</span>
+    </div>
+    <div class="poc-calc-row">
+      <div class="poc-calc-label">Rasio pengenceran (POC stok : air)</div>
+      <span style="font-size:10px;color:var(--text-light);">1 :</span>
+      <input type="number" id="pocRasio" class="poc-calc-input" value="10" min="5" max="20" step="1">
+    </div>
+    <div class="poc-calc-row">
+      <div class="poc-calc-label">Frekuensi aplikasi / bulan</div>
+      <input type="number" id="pocFreq" class="poc-calc-input" value="3" min="1" max="6" step="1">
+      <span style="font-size:10px;color:var(--text-light);width:30px;">kali</span>
+    </div>
+    <div class="poc-calc-result" id="pocCalcResult"></div>
+    <div class="poc-bahan-box" id="pocBahanResult"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title" style="color:var(--amber-dark);">📦 Katalog Pestisida & Fungisida</span>
+      <span class="card-sub">Merek & Dosis</span>
+    </div>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-btn active" data-cat="all">📋 Semua</button>
+      <button class="filter-btn" data-cat="insektisida">🐛 Insektisida</button>
+      <button class="filter-btn" data-cat="fungisida">🦠 Fungisida</button>
+      <button class="filter-btn" data-cat="bakterisida">🧫 Bakterisida</button>
+      <button class="filter-btn" data-cat="akarisida">🪲 Akarisida</button>
+      <button class="filter-btn" data-cat="biopestisida">🌿 Biopestisida</button>
+    </div>
+    <input type="text" id="searchPest" class="input-text" placeholder="🔍 Cari hama / bahan aktif / merek...">
+    <div id="pestCatalog" style="max-height:420px;overflow-y:auto;"></div>
+    <div class="poc-warn">⚠️ <strong>Wajib:</strong> rotasi bahan aktif tiap 2–3 aplikasi, patuhi dosis label, gunakan APD, perhatikan masa tunggu (PHI). Beli produk berlabel Kementan.</div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title" style="color:var(--amber-dark);">🔄 Jadwal Rotasi Perlindungan 12 Minggu</span>
+      <span class="card-sub">Cegah Resistensi</span>
+    </div>
+    <div id="rotationPlan" style="max-height:380px;overflow-y:auto;"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title" style="color:var(--red-dark);">🏥 Dokter & Klinik Penyakit Cabai</span>
+      <span class="card-sub">Diagnosis & Merek Obat</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="diseaseSelect">Pilih Gejala / Penyakit:</label>
+      <select id="diseaseSelect" class="select-disease" onchange="renderDisease()">
+        <option value="patek">1. Busuk Buah / Patek (Colletotrichum)</option>
+        <option value="layuBakteri">2. Layu Bakteri Mendadak (Ralstonia)</option>
+        <option value="layuJamur">3. Layu Jamur / Fusariosis (Fusarium)</option>
+        <option value="keriting">4. Daun Keriting & Mosaik (Virus/Kutu)</option>
+        <option value="thrips">5. Thrips & Tungau</option>
+        <option value="bercak">6. Bercak Daun (Cercospora)</option>
+      </select>
+    </div>
+    <div id="diseaseDisplay" class="disease-box"></div>
+  </section>
+
+</div>
+</main>
+
+<!-- ============ HALAMAN 2: KEUANGAN ============ -->
+<main id="page-keuangan" class="page">
+<div class="main-container">
+
+  <section class="card" style="border-color:var(--green);">
+    <div class="card-header" style="border-bottom-color:var(--green-light);">
+      <span class="card-title" style="color:var(--green-dark);">💰 Dashboard Keuangan</span>
+      <span class="card-sub">Pembelian & Penjualan</span>
+    </div>
+
+    <div class="finance-summary">
+      <div class="fin-card fin-in">
+        <span class="fin-label">💵 Pemasukan</span>
+        <span class="fin-val" id="finIn">Rp 0</span>
+        <span class="fin-sub" id="finInSub">0 penjualan</span>
+      </div>
+      <div class="fin-card fin-out">
+        <span class="fin-label">💸 Pengeluaran</span>
+        <span class="fin-val" id="finOut">Rp 0</span>
+        <span class="fin-sub" id="finOutSub">0 pembelian</span>
+      </div>
+      <div class="fin-card fin-bal" id="finBalCard">
+        <span class="fin-label">📊 Selisih</span>
+        <span class="fin-val" id="finBal">Rp 0</span>
+        <span class="fin-sub" id="finBalSub">Belum ada transaksi</span>
+      </div>
+    </div>
+
+    <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:10px;">
+      <div class="disease-section-title" style="color:var(--green-dark);margin-top:0;">🛒 Simulasi Belanja Pupuk — Fase Aktif</div>
+      <p style="font-size:10px;color:var(--text-muted);margin:4px 0 8px;">Estimasi kebutuhan untuk <strong id="simPohon" style="color:var(--green-dark);">100</strong> tanaman (1× aplikasi). Isi harga (bisa per gram/ml atau kg/L), lalu klik <strong style="color:var(--green-dark);">+</strong>.</p>
+      <div id="simTable"></div>
+      <div class="sim-total-bar">
+        <span class="sim-total-label">Total Estimasi Belanja</span>
+        <span class="sim-total-val" id="simTotal">Rp 0</span>
+      </div>
+      <button onclick="addAllSimToExpenses()" class="btn-copy" style="background:var(--green);color:#fff;border-color:var(--green);font-weight:700;width:100%;margin-top:8px;">➕ Tambah Semua ke Pengeluaran</button>
+    </div>
+
+    <div class="finance-grid">
+      <div class="fin-panel">
+        <div class="fin-panel-title" style="color:var(--red-dark);">💸 Catatan Pengeluaran</div>
+        <div class="add-form">
+          <select id="expCat" class="select-disease" aria-label="Kategori">
+            <option value="pupuk">🌱 Pupuk</option>
+            <option value="pestisida">🧪 Pestisida</option>
+            <option value="benih">🌰 Benih</option>
+            <option value="media">🪴 Media/Tanah</option>
+            <option value="upah">👷 Upah/Tenaga</option>
+            <option value="lain">📦 Lain-lain</option>
+          </select>
+          <input type="text" id="expName" class="input-text" placeholder="Nama item (mis. NPK Mutiara)" aria-label="Nama item">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:4px;">
+            <input type="number" id="expQty" class="input-text" placeholder="Qty" min="0" step="0.1" aria-label="Jumlah">
+            <select id="expUnit" class="select-disease" aria-label="Satuan">
+              <option>kg</option><option>g</option><option>L</option><option>ml</option><option>pcs</option><option>paket</option>
+            </select>
+            <input type="number" id="expPrice" class="input-text" placeholder="Harga/satuan" min="0" aria-label="Harga">
+          </div>
+          <button onclick="addExpense()" class="btn-copy" style="background:var(--green);color:#fff;border-color:var(--green);font-weight:700;">+ Tambah Pengeluaran</button>
+        </div>
+        <div id="expList" class="ledger-list"></div>
+        <div class="ledger-total">
+          <span>Total Pengeluaran</span>
+          <span id="expTotal" style="color:var(--red-dark);">Rp 0</span>
+        </div>
+      </div>
+
+      <div class="fin-panel">
+        <div class="fin-panel-title" style="color:var(--green-dark);">💵 Catatan Penjualan</div>
+        <div class="add-form">
+          <input type="date" id="revDate" class="input-date" aria-label="Tanggal">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+            <input type="number" id="revKg" class="input-text" placeholder="Berat (kg)" min="0" step="0.1" aria-label="Berat kg">
+            <input type="number" id="revPrice" class="input-text" placeholder="Harga/kg" min="0" aria-label="Harga per kg">
+          </div>
+          <input type="text" id="revNote" class="input-text" placeholder="Catatan (opsional, mis. Grade A)" aria-label="Catatan">
+          <button onclick="addRevenue()" class="btn-copy" style="background:var(--green);color:#fff;border-color:var(--green);font-weight:700;">+ Tambah Penjualan</button>
+        </div>
+        <div id="revList" class="ledger-list"></div>
+        <div class="ledger-total">
+          <span>Total Pemasukan</span>
+          <span id="revTotal" style="color:var(--green-dark);">Rp 0</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="financeInsight" class="poc-ok" style="display:none;"></div>
+
+    <button onclick="resetFinance()" class="btn-copy" style="background:var(--red-light);border-color:var(--red);color:var(--red-dark);font-size:10px;font-weight:700;">🗑️ Reset Semua Data Keuangan</button>
+  </section>
+
+</div>
+</main>
+
+<div id="toast">Berhasil!</div>
+
+<script>
+/* ===== ELEMENTS ===== */
+const tglTanamInput=document.getElementById('tglTanamInput');
+const hstRange=document.getElementById('hstRange');
+const hstVal=document.getElementById('hstVal');
+const pohonInput=document.getElementById('pohonInput');
+const emberInput=document.getElementById('emberInput');
+const badgeText=document.getElementById('badgeText');
+const phText=document.getElementById('phText');
+const titleText=document.getElementById('titleText');
+const descText=document.getElementById('descText');
+const totalWaterText=document.getElementById('totalWaterText');
+const totalEmberText=document.getElementById('totalEmberText');
+const nextDateText=document.getElementById('nextDateText');
+const scheduleContainer=document.getElementById('scheduleContainer');
+const recipeContainer=document.getElementById('recipeContainer');
+const recommendationGrid=document.getElementById('recommendationGrid');
+const pestCatalog=document.getElementById('pestCatalog');
+const rotationPlan=document.getElementById('rotationPlan');
+const saveIndicator=document.getElementById('saveIndicator');
+
+let currentCopyText='';
+let activePestFilter='all';
+let pestSearchQuery='';
+
+/* ===== PERSISTENSI ===== */
+const STORAGE_KEY='chilinutri_v7';
+const state={tglTanam:'',hst:15,pohon:100,ember:16,pocDosis:250,pocRasio:10,pocFreq:3,finance:{expenses:[],revenues:[],fertPrices:{}}};
+
+function getFinance(){
+  if(!state.finance)state.finance={expenses:[],revenues:[],fertPrices:{}};
+  if(!state.finance.expenses)state.finance.expenses=[];
+  if(!state.finance.revenues)state.finance.revenues=[];
+  if(!state.finance.fertPrices)state.finance.fertPrices={};
+  return state.finance;
+}
+function loadState(){
+  try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)Object.assign(state,JSON.parse(raw));}catch(e){}
+  if(!state.tglTanam){const d=new Date();d.setDate(d.getDate()-15);state.tglTanam=toISO(d);}
+  tglTanamInput.value=state.tglTanam;
+  hstRange.value=state.hst;
+  pohonInput.value=state.pohon;
+  emberInput.value=state.ember;
+  document.getElementById('pocDosis').value=state.pocDosis;
+  document.getElementById('pocRasio').value=state.pocRasio;
+  document.getElementById('pocFreq').value=state.pocFreq;
+  document.getElementById('revDate').value=toISO(new Date());
+}
+let saveTimer=null;
+function persist(){
+  state.tglTanam=tglTanamInput.value;
+  state.hst=parseInt(hstRange.value);
+  state.pohon=parseInt(pohonInput.value)||100;
+  state.ember=parseFloat(emberInput.value)||16;
+  state.pocDosis=parseInt(document.getElementById('pocDosis').value)||250;
+  state.pocRasio=parseInt(document.getElementById('pocRasio').value)||10;
+  state.pocFreq=parseInt(document.getElementById('pocFreq').value)||3;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}
+    if(saveIndicator){saveIndicator.textContent='tersimpan ✓';setTimeout(()=>saveIndicator.textContent='auto-save',1200);}
+  },300);
+}
+function toISO(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
+function parseISO(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function daysBetween(a,b){return Math.floor((b-a)/86400000);}
+function formatRupiah(n){return 'Rp '+Math.round(n).toLocaleString('id-ID');}
+
+/* ===== TOAST ===== */
+function showToast(msg,isError){
+  const t=document.getElementById('toast');
+  t.textContent=msg||'Berhasil!';
+  t.classList.toggle('err',!!isError);
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ===== NAVIGASI HALAMAN ===== */
+function switchPage(pageId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+pageId).classList.add('active');
+  document.querySelector(`.nav-btn[data-page="${pageId}"]`).classList.add('active');
+  if(pageId==='keuangan'){renderFinance();renderSimulation();}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== DATABASE PESTISIDA (DENGAN DOSIS) ===== */
+const pesticideDB=[
+  {cat:'insektisida',target:'Thrips & Tungau',bahan:'Abamektin',merek:'Agrimec 18 EC · Demolish 18 EC · Bamex 18 EC',gol:'6',dosis:'0.25 - 0.5 ml/L (4-8 ml/tangki 16L)'},
+  {cat:'insektisida',target:'Thrips resisten',bahan:'Spinetoram',merek:'Radiant 120 SC',gol:'5',dosis:'0.3 - 0.6 ml/L (5-10 ml/tangki 16L)'},
+  {cat:'insektisida',target:'Kutu kebul & Kutu daun',bahan:'Imidakloprid',merek:'Confidor 200 SL',gol:'4A',dosis:'0.5 - 1 ml/L (8-16 ml/tangki 16L)'},
+  {cat:'insektisida',target:'Kutu kebul',bahan:'Tiametoksam',merek:'Actara 25 WG',gol:'4A',dosis:'0.25 - 0.5 g/L (4-8 g/tangki 16L)'},
+  {cat:'insektisida',target:'Kutu kebul (ramah musuh alami)',bahan:'Pimetrozin',merek:'Chess 50 WG',gol:'9B',dosis:'0.5 g/L (8 g/tangki 16L)'},
+  {cat:'insektisida',target:'Kutu daun & Thrips',bahan:'Asetamiprid',merek:'Mospilan 20 SP',gol:'4A',dosis:'0.5 g/L (8 g/tangki 16L)'},
+  {cat:'insektisida',target:'Ulat grayak & Ulat buah',bahan:'Klorantraniliprol',merek:'Prevathon 50 SC · Coragen',gol:'28',dosis:'0.25 - 0.5 ml/L (4-8 ml/tangki 16L)'},
+  {cat:'insektisida',target:'Ulat (biologi)',bahan:'Bacillus thuringiensis',merek:'Dipel WP · Bactospeine',gol:'Bt',dosis:'1 - 2 g/L (16-32 g/tangki 16L)'},
+  {cat:'insektisida',target:'Ulat (biologi)',bahan:'Emamektin benzoat',merek:'Proclaim 5 SG',gol:'6',dosis:'0.5 g/L (8 g/tangki 16L)'},
+  {cat:'insektisida',target:'Lalat buah',bahan:'Metil eugenol',merek:'Petrogenol (perangkap)',gol:'—',dosis:'Pasang perangkap 1-2 buah/10m²'},
+  {cat:'insektisida',target:'Hama tanah',bahan:'Fipronil',merek:'Regent 50 SC',gol:'2B',dosis:'1 - 2 ml/L (16-32 ml/tangki 16L)'},
+  
+  {cat:'fungisida',target:'Patek / Antraknosa (kontak)',bahan:'Propineb',merek:'Antracol 70 WP',gol:'M3',dosis:'1.5 - 2 g/L (24-32 g/tangki 16L)'},
+  {cat:'fungisida',target:'Patek (kontak)',bahan:'Mankozeb',merek:'Dithane M-45 · Victory 80 WP',gol:'M3',dosis:'1.5 - 2 g/L (24-32 g/tangki 16L)'},
+  {cat:'fungisida',target:'Patek (sistemik)',bahan:'Azoksistrobin',merek:'Amistar 50 SC',gol:'11',dosis:'0.5 - 1 ml/L (8-16 ml/tangki 16L)'},
+  {cat:'fungisida',target:'Patek (kombinasi)',bahan:'Azoksistrobin + Difenokonazol',merek:'Amistartop 325 SC',gol:'11+3',dosis:'0.5 - 1 ml/L (8-16 ml/tangki 16L)'},
+  {cat:'fungisida',target:'Bercak daun & Patek',bahan:'Difenokonazol',merek:'Score 250 EC',gol:'3',dosis:'0.25 - 0.5 ml/L (4-8 ml/tangki 16L)'},
+  {cat:'fungisida',target:'Bercak daun',bahan:'Klorotalonil',merek:'Daconil 75 WP',gol:'M5',dosis:'1.5 - 2 g/L (24-32 g/tangki 16L)'},
+  {cat:'fungisida',target:'Layu Fusarium',bahan:'Tebuconazol',merek:'Folicur 250 EC · Orius',gol:'3',dosis:'0.5 - 1 ml/L (8-16 ml/tangki 16L)'},
+  {cat:'fungisida',target:'Layu Fusarium',bahan:'Benomil',merek:'Benlox 50 WP',gol:'1',dosis:'0.5 - 1 g/L (8-16 g/tangki 16L)'},
+  {cat:'fungisida',target:'Layu Fusarium (biologi)',bahan:'Trichoderma harzianum',merek:'Tricho-S · Bio-T · Tricho-Plus',gol:'Hayati',dosis:'5 - 10 g/L (80-160 g/tangki 16L) / Kocor'},
+  {cat:'fungisida',target:'Busuk akar / Phytophthora',bahan:'Metalaksil + Mankozeb',merek:'Ridomil Gold MZ 68 WP',gol:'4+M3',dosis:'2 g/L (32 g/tangki 16L)'},
+  {cat:'fungisida',target:'Busuk akar',bahan:'Dimetomorf',merek:'Acrobat 50 WP',gol:'40',dosis:'0.4 g/L (6-8 g/tangki 16L)'},
+  
+  {cat:'bakterisida',target:'Layu Ralstonia',bahan:'Streptomisin sulfat',merek:'Agrimycin 17 WP · Plantomycin',gol:'25',dosis:'0.5 - 1 g/L (8-16 g/tangki 16L)'},
+  {cat:'bakterisida',target:'Layu Ralstonia & Bercak bakteri',bahan:'Tembaga hidroksida',merek:'Kocide 77 WP · Nordox 56 WP',gol:'M1',dosis:'1 - 2 g/L (16-32 g/tangki 16L)'},
+  {cat:'bakterisida',target:'Bercak bakteri',bahan:'Tembaga oksiklorida',merek:'Cupravit 77 WP',gol:'M1',dosis:'1 - 2 g/L (16-32 g/tangki 16L)'},
+  {cat:'bakterisida',target:'Layu bakteri (biologi)',bahan:'Pseudomonas fluorescens',merek:'Produk hayati lokal',gol:'Hayati',dosis:'5 - 10 ml/L (80-160 ml/tangki 16L)'},
+  
+  {cat:'akarisida',target:'Tungau',bahan:'Propargit',merek:'Omite 570 EC',gol:'12C',dosis:'1 - 2 ml/L (16-32 ml/tangki 16L)'},
+  {cat:'akarisida',target:'Tungau & Thrips',bahan:'Abamektin',merek:'Agrimec 18 EC · Demolish 18 EC',gol:'6',dosis:'0.25 - 0.5 ml/L (4-8 ml/tangki 16L)'},
+  
+  {cat:'biopestisida',target:'Anti Fusarium & busuk akar',bahan:'Trichoderma harzianum',merek:'Serbuk/tepung (lokal)',gol:'Hayati',dosis:'5 - 10 g/L (80-160 g/tangki 16L) / Kocor'},
+  {cat:'biopestisida',target:'Anti thrips, kutu, wereng',bahan:'Beauveria bassiana',merek:'Serbuk (lokal)',gol:'Hayati',dosis:'2 - 5 g/L (32-80 g/tangki 16L)'},
+  {cat:'biopestisida',target:'Anti hama tanah & ulat',bahan:'Metarhizium anisopliae',merek:'Serbuk (lokal)',gol:'Hayati',dosis:'2 - 5 g/L (32-80 g/tangki 16L)'},
+  {cat:'biopestisida',target:'Anti jamur & bakteri',bahan:'Bacillus subtilis',merek:'Cair/serbuk (lokal)',gol:'Hayati',dosis:'5 - 10 ml/L (80-160 ml/tangki 16L)'},
+  {cat:'biopestisida',target:'Bio-fertilizer + proteksi akar',bahan:'PGPR',merek:'Cair (lokal)',gol:'Hayati',dosis:'5 - 10 ml/L (80-160 ml/tangki 16L) / Kocor'},
+  {cat:'biopestisida',target:'POC fermentasi rumahan',bahan:'Air cucian beras + Molase + EM4',merek:'Buat sendiri (DIY)',gol:'Hayati',dosis:'100-200 ml/L air (1.6 - 3.2 L/tangki 16L)'}
+];
+const catLabel={insektisida:'Insektisida',fungisida:'Fungisida',bakterisida:'Bakterisida',akarisida:'Akarisida',biopestisida:'Biopestisida'};
+
+/* ===== ROTASI 12 MINGGU ===== */
+const rotationPlanData=[
+  {w:1,produk:'Antracol 70 WP (Propineb, M3)',target:'Pencegahan dasar jamur — kontak'},
+  {w:2,produk:'Amistar 50 SC (Azoksistrobin, 11)',target:'Sistemik strobilurin — patek/bercak'},
+  {w:3,produk:'Score 250 EC (Difenokonazol, 3)',target:'DMI — bercak daun & patek'},
+  {w:4,produk:'Daconil 75 WP (Klorotalonil, M5)',target:'Kontak berbeda golongan'},
+  {w:5,produk:'Agrimec 18 EC (Abamektin, 6)',target:'Insektisida thrips & tungau'},
+  {w:6,produk:'Confidor 200 SL (Imidakloprid, 4A)',target:'Kutu kebul & kutu daun'},
+  {w:7,produk:'Antracol 70 WP (M3)',target:'Ulang siklus fungisida (rotasi)'},
+  {w:8,produk:'Amistartop 325 SC (11+3)',target:'Kombinasi sistemik patek'},
+  {w:9,produk:'Prevathon 50 SC (Klorantraniliprol, 28)',target:'Ulat grayak & ulat buah'},
+  {w:10,produk:'Score 250 EC (3)',target:'DMI putaran kedua'},
+  {w:11,produk:'Daconil 75 WP (M5)',target:'Kontak putaran kedua'},
+  {w:12,produk:'POC Air Cucian Beras + Trichoderma',target:'Evaluasi + penguatan biologi tanah'}
+];
+
+/* ===== KLINIK ===== */
+const diseaseData={
+  patek:{title:'Busuk Buah / Patek (Colletotrichum)',tag:'Jamur & Defisiensi Ca',
+    cause:'Dinding sel buah lembek akibat defisiensi Kalsium ditambah kelembapan tinggi.',
+    obatMerek:['Karate Plus Boroni / Kalsium Nitrat (2-3 sdm/20L) — mempertebal kulit buah.','Antracol 70 WP / Dithane M-45 (Mankozeb/Propineb) — fungisida kontak.','Amistartop 325 SC (Azoksistrobin + Difenokonazol) — sistemik.'],
+    pencegahan:['Hindari Nitrogen berlebih saat fase pembuahan.','Jaga pH 6.2–6.8 dengan Asam Humat & Dolomit.','Petik dan buang buah terserang.']},
+  layuBakteri:{title:'Layu Bakteri Mendadak (Ralstonia)',tag:'Bakteri Vaskular',
+    cause:'Bakteri menyumbat pembuluh xilem. Layu siang, segar malam, lalu mati hijau.',
+    obatMerek:['Agri-mycin 17 WP / Plantomycin (Streptomisin) — bakterisida sistemik.','Kocide 77 WP / Cupravit 77 WP (Tembaga) — kontak.','Pseudomonas fluorescens — agens hayati.'],
+    pencegahan:['Cabut dan bakar tanaman terinfeksi berat.','Perbaiki drainase bedengan.','Aplikasi dolomit + asam humat.']},
+  layuJamur:{title:'Layu Jamur Fusarium',tag:'Jamur Tanah Masam',
+    cause:'Jamur menyerang akar pada tanah masam (pH < 5.5). Daun menguning dari bawah.',
+    obatMerek:['Nativo 75 WG / Benlox 50 WP (Tebuconazole/Benomil) — sistemik kocor.','Folicur 250 EC / Orius (Tebuconazol) — sistemik.','Trichoderma Harzianum — hayati pemakan Fusarium.'],
+    pencegahan:['Kocor Asam Humat rutin untuk menetralkan Al3+.','Kocor POC air cucian beras untuk mikroba baik.','Rotasi dengan non-solanaceae.']},
+  keriting:{title:'Daun Keriting & Kuning Mosaik (Virus Gemini)',tag:'Hama Vektor & Virus',
+    cause:'Isapan Thrips/Kutu Kebul menularkan Virus Gemini sehingga daun keriting dan kaku.',
+    obatMerek:['Agrimec 18 EC / Demolish 18 EC (Abamektin) — pembasmi Thrips & Tungau.','Confidor 200 SL / Actara 25 WG (Imidakloprid/Tiametoksam) — pembasmi Kutu Kebul.','Pupuk Mikro (Zn/Mn) + Asam Amino — merangsang tunas baru.'],
+    pencegahan:['Pasang Yellow Sticky Trap.','Bersihkan gulma tempat persembunyian kutu.','Cabut tanaman terinfeksi berat.']},
+  thrips:{title:'Thrips & Tungau',tag:'Hama Penghisap',
+    cause:'Menghisap cairan daun, menyebabkan daun keriting, mengkilap perak, berbintik.',
+    obatMerek:['Abamektin (Agrimec/Demolish) — spektrum luas.','Spinetoram (Radiant 120 SC) — untuk thrips resisten.','Propargit (Omite 570 EC) — khusus tungau.'],
+    pencegahan:['Rotasi bahan aktif tiap 2–3 aplikasi.','Semprot pagi/sore, jangan saat terik.']},
+  bercak:{title:'Bercak Daun (Cercospora capsici)',tag:'Jamur Daun',
+    cause:'Bercak bulat abu-abu dengan tepi coklat. Berkembang pada kelembapan tinggi.',
+    obatMerek:['Mankozeb (Antracol/Dithane) — kontak.','Klorotalonil (Daconil 75 WP) — pencegahan rutin.','Azoksistrobin (Amistar 50 SC) — sistemik.'],
+    pencegahan:['Jangan siram daun; siram ke perakaran.','Jarak tanam cukup agar sirkulasi baik.']}
+};
+
+function renderDisease(){
+  const key=document.getElementById('diseaseSelect').value;
+  const item=diseaseData[key];
+  const container=document.getElementById('diseaseDisplay');
+  if(!item)return;
+  container.innerHTML=`
+    <div><span class="disease-tag">${item.tag}</span><h3 class="disease-title" style="margin-top:4px;">${item.title}</h3></div>
+    <p style="font-size:11px;color:var(--text-muted);"><strong style="color:var(--text);">Penyebab:</strong> ${item.cause}</p>
+    <div><div class="disease-section-title">🧪 Rekomendasi Merek Obat:</div>
+    <ul class="disease-list">${item.obatMerek.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+    <div><div class="disease-section-title" style="color:var(--green-dark);">🛡️ Pencegahan:</div>
+    <ul class="disease-list">${item.pencegahan.map(p=>`<li>${p}</li>`).join('')}</ul></div>`;
+}
+
+function renderPestCatalog(){
+  const q=pestSearchQuery.trim().toLowerCase();
+  const filtered=pesticideDB.filter(p=>{
+    const matchCat=(activePestFilter==='all'||p.cat===activePestFilter);
+    const matchSearch=!q||p.target.toLowerCase().includes(q)||p.bahan.toLowerCase().includes(q)||p.merek.toLowerCase().includes(q);
+    return matchCat&&matchSearch;
+  });
+  if(!filtered.length){pestCatalog.innerHTML='<p style="font-size:11px;color:var(--text-light);text-align:center;padding:20px;">Tidak ada hasil.</p>';return;}
+  pestCatalog.innerHTML=filtered.map(p=>`
+    <div class="pest-item">
+      <div class="pest-head"><div class="pest-target">${p.target}</div>
+      <span class="pest-cat-badge cat-${p.cat}">${catLabel[p.cat]}</span></div>
+      <div class="pest-detail"><strong>Bahan aktif:</strong> ${p.bahan}<span class="gol-badge">Gol. ${p.gol}</span></div>
+      <div class="pest-dosis">💧 <strong>Dosis:</strong> ${p.dosis}</div>
+      <div class="pest-merek">🏷️ ${p.merek}</div>
+    </div>`).join('');
+}
+
+function renderRotationPlan(){
+  rotationPlan.innerHTML=rotationPlanData.map(r=>`
+    <div class="rot-item">
+      <div class="rot-week">M${r.w}</div>
+      <div class="rot-body"><div class="rot-product">${r.produk}</div><div class="rot-target">${r.target}</div></div>
+    </div>`).join('');
+}
+
+/* ===== KALKULATOR POC ===== */
+function renderPOCCalc(){
+  const pohon=Math.max(1,parseInt(pohonInput.value)||100);
+  const dosis=Math.max(100,parseInt(document.getElementById('pocDosis').value)||250);
+  const rasio=Math.max(5,parseInt(document.getElementById('pocRasio').value)||10);
+  const freq=Math.max(1,Math.min(6,parseInt(document.getElementById('pocFreq').value)||3));
+  const pocPerTanaman=dosis/rasio;
+  const pocPerAplikasi=(pocPerTanaman*pohon)/1000;
+  const pocPerBulan=pocPerAplikasi*freq;
+  const batchPerBulan=Math.ceil(pocPerBulan/10);
+  const larutanPerAplikasi=(dosis*pohon)/1000;
+  const batchData={airBeras:10,molase:150,em4:75};
+  const totalBahan={airBeras:batchData.airBeras*batchPerBulan,molase:batchData.molase*batchPerBulan,em4:batchData.em4*batchPerBulan};
+  const jerikenAktif=batchPerBulan+1;
+  document.getElementById('pocCalcResult').innerHTML=`
+    <div class="poc-result-row"><span class="poc-result-label">POC stok / aplikasi (${pohon} tanaman)</span><span class="poc-result-val big">${pocPerAplikasi.toFixed(2)} L</span></div>
+    <div class="poc-result-row"><span class="poc-result-label">POC stok / bulan (${freq}× aplikasi)</span><span class="poc-result-val big">${pocPerBulan.toFixed(2)} L</span></div>
+    <div class="poc-result-row"><span class="poc-result-label">Batch fermentasi (10 L) / bulan</span><span class="poc-result-val big">${batchPerBulan} batch</span></div>
+    <div class="poc-result-row"><span class="poc-result-label">Larutan siap kocor / aplikasi</span><span class="poc-result-val">${larutanPerAplikasi.toFixed(2)} L</span></div>
+    <div class="poc-result-row" style="border-top:1px solid rgba(22,163,74,.2);padding-top:6px;margin-top:4px;"><span class="poc-result-label">Stok POC per tanaman / aplikasi</span><span class="poc-result-val">${pocPerTanaman.toFixed(0)} ml</span></div>`;
+  document.getElementById('pocBahanResult').innerHTML=`
+    <div style="font-size:10px;font-weight:700;color:var(--amber-dark);text-transform:uppercase;margin-bottom:6px;">📦 Bahan per Bulan (${batchPerBulan} batch)</div>
+    <div class="poc-result-row"><span class="poc-result-label" style="color:var(--text-muted);">Air cucian beras</span><span class="poc-result-val">${totalBahan.airBeras} L</span></div>
+    <div class="poc-result-row"><span class="poc-result-label" style="color:var(--text-muted);">Molase / gula merah</span><span class="poc-result-val">${totalBahan.molase} ml</span></div>
+    <div class="poc-result-row"><span class="poc-result-label" style="color:var(--text-muted);">EM4 Pertanian</span><span class="poc-result-val">${totalBahan.em4} ml</span></div>
+    <div class="poc-result-row"><span class="poc-result-label" style="color:var(--text-muted);">Jeriken aktif</span><span class="poc-result-val">${jerikenAktif} buah</span></div>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:6px;line-height:1.5;padding-top:6px;border-top:1px solid var(--border);">💡 Mulai batch baru tiap <strong>${Math.round(30/batchPerBulan)} hari</strong>.</div>`;
+}
+
+/* ===== LOGIKA FASE (BASE 16L) ===== */
+function getPhaseData(hst){
+  if(hst<=21)return{badge:'Fase Vegetatif Awal (1–21 HST)',ph:'6.0 – 6.8',title:'Pembentukan Akar & Klorofil Daun',desc:'Mempercepat pembentukan akar baru dan menghijaukan daun.',volPerPohon:0.20,
+    items20L:[{name:'NPK 16-16-16',baseGram:160,unit:'g',sdm:'8 sdm'},{name:'Asam Humat',baseGram:12,unit:'g',sdm:'1 sdm'},{name:'POC Air Cucian Beras',baseGram:160,unit:'ml',sdm:'3/4 gelas'}],
+    recommendations:[{type:'Pupuk Utama',name:'NPK Mutiara 16-16-16',desc:'Nutrisi seimbang NPK.'},{type:'Pembenah Tanah',name:'Asam Humat Powder',desc:'Mengikat hara tanah.'},{type:'Organik',name:'POC Air Cucian Beras',desc:'Fermentasi DIY, kaya mikroba.'}]};
+  if(hst<=35)return{badge:'Fase Vegetatif Lanjut (22–35 HST)',ph:'6.0 – 6.8',title:'Penguatan Percabangan V',desc:'Memperbanyak cabang produktif dan cadangan energi.',volPerPohon:0.20,
+    items20L:[{name:'NPK 16-16-16',baseGram:200,unit:'g',sdm:'10 sdm'},{name:'Ultradap / SP-36',baseGram:24,unit:'g',sdm:'1.5 sdm'},{name:'Asam Humat',baseGram:12,unit:'g',sdm:'1 sdm'}],
+    recommendations:[{type:'Pupuk Utama',name:'NPK DGW 16-16-16',desc:'Ketahanan batang.'},{type:'Fosfat Tinggi',name:'Ultradap Pak Tani',desc:'Perakaran & calon bunga.'},{type:'Hayati',name:'PGPR / Bio-Fertilizer',desc:'Perlindungan akar.'}]};
+  if(hst<=55)return{badge:'Fase Pembungaan (36–55 HST)',ph:'6.2 – 6.8',title:'Inisiasi Bunga & Bakal Buah',desc:'Merangsang bunga serempak dan mencegah rontok.',volPerPohon:0.25,
+    items20L:[{name:'Pupuk MKP',baseGram:40,unit:'g',sdm:'2 sdm'},{name:'Pupuk KNO3 Putih',baseGram:40,unit:'g',sdm:'2 sdm'},{name:'Kalsium Nitrat',baseGram:24,unit:'g',sdm:'1.5 sdm'}],
+    recommendations:[{type:'Fosfat & Kalium',name:'MKP Pak Tani',desc:'Cegah bunga rontok.'},{type:'Kalium Nitrat',name:'KNO3 Putih CPN',desc:'Pembentukan buah.'},{type:'Kalsium',name:'Karate Plus Boroni',desc:'Penguat tangkai.'}]};
+  if(hst<=85)return{badge:'Fase Pembuahan & Panen (56–85 HST)',ph:'6.2 – 6.8',title:'Pembesaran & Bobot Buah',desc:'Kalsium pektat (kulit tebal) & kapsaisin (pedas).',volPerPohon:0.25,
+    items20L:[{name:'NPK 16-16-16',baseGram:160,unit:'g',sdm:'8 sdm'},{name:'Pupuk KNO3 Putih',baseGram:40,unit:'g',sdm:'2 sdm'},{name:'Kalsium + Boron',baseGram:36,unit:'g',sdm:'2 sdm'},{name:'Asam Humat',baseGram:12,unit:'g',sdm:'1 sdm'}],
+    recommendations:[{type:'Kalium Tinggi',name:'KNO3 Putih Pak Tani',desc:'Tambah bobot buah.'},{type:'Cegah Patek',name:'Kalsium Boron',desc:'Cegah busuk ujung.'},{type:'Asam Amino',name:'POC Air Cucian Beras',desc:'Jaga stamina panen.'}]};
+  return{badge:'Panen Raya / Perawatan Lanjutan (86+ HST)',ph:'6.2 – 6.8',title:'Menjaga Produktivitas Panen',desc:'Pupuk K tinggi + Kalsium untuk panen berikutnya.',volPerPohon:0.30,
+    items20L:[{name:'NPK 12-12-17 / KCl',baseGram:160,unit:'g',sdm:'8 sdm'},{name:'Kalsium + Boron',baseGram:36,unit:'g',sdm:'2 sdm'},{name:'Asam Humat',baseGram:16,unit:'g',sdm:'1.5 sdm'},{name:'POC Air Cucian Beras',baseGram:160,unit:'ml',sdm:'3/4 gelas'}],
+    recommendations:[{type:'Kalium Tinggi',name:'NPK 12-12-17',desc:'Kualitas buah.'},{type:'Kalsium',name:'Kalsium Boron',desc:'Cegah busuk buah.'},{type:'Organik',name:'POC Air Cucian Beras',desc:'Stamina tanaman.'}]};
+}
+
+const SCHEDULE_HST=[7,14,21,28,35,42,49,56,63,70,77,84,91,98,105,112,119,126,133,140,147];
+function calculateDateFromHST(hst){
+  const startISO=tglTanamInput.value;
+  if(!startISO)return '-';
+  const start=parseISO(startISO);
+  const target=new Date(start);
+  target.setDate(start.getDate()+hst);
+  return target.toLocaleDateString('id-ID',{day:'numeric',month:'short'});
+}
+function getNextApplicationText(hst){
+  const next=SCHEDULE_HST.find(s=>s>hst);
+  if(!next)return 'Selesai';
+  return `${next} HST · ${calculateDateFromHST(next)}`;
+}
+
+/* ===== RENDER AGRONOMI ===== */
+function render(){
+  const hst=Math.max(1,parseInt(hstRange.value)||1);
+  const pohon=Math.max(1,parseInt(pohonInput.value)||1);
+  const emberVol=Math.max(1,parseFloat(emberInput.value)||16);
+  hstVal.innerText=`${hst} HST`;
+  const data=getPhaseData(hst);
+  badgeText.innerText=data.badge;
+  phText.innerText=data.ph;
+  titleText.innerText=data.title;
+  descText.innerText=data.desc;
+  
+  const totalAir=pohon*data.volPerPohon;
+  const totalEmber=totalAir/emberVol;
+  totalWaterText.innerText=`${totalAir.toFixed(1)} L`;
+  totalEmberText.innerText=`${totalEmber.toFixed(1)} Ember`;
+  nextDateText.innerText=getNextApplicationText(hst);
+
+  // Hitung kapasitas 1 tangki
+  const plantsPerTank=Math.floor(emberVol/data.volPerPohon);
+  const remainderPlants=pohon%plantsPerTank;
+  const remainderWater=remainderPlants*data.volPerPohon;
+  
+  const tankInfoBanner=document.getElementById('tankInfoBanner');
+  if(pohon<=plantsPerTank){
+    tankInfoBanner.innerHTML=`💡 <strong>1 Ember (${emberVol} L) cukup untuk ${pohon} tanaman Anda.</strong> (Kapasitas maks ${plantsPerTank} tanaman/ember). Dosis di kalkulator adalah untuk 1 ember penuh.`;
+  }else if(remainderPlants===0){
+    tankInfoBanner.innerHTML=`💡 <strong>1 Ember (${emberVol} L) cukup untuk ${plantsPerTank} tanaman.</strong> Anda punya ${pohon} tanaman, butuh pas ${totalEmber.toFixed(1)} ember penuh.`;
+  }else{
+    tankInfoBanner.innerHTML=`💡 <strong>1 Ember (${emberVol} L) cukup untuk ${plantsPerTank} tanaman.</strong> Karena Anda punya ${pohon} tanaman, butuh ${Math.floor(totalEmber)} ember penuh + 1 wadah <strong>${remainderWater.toFixed(1)} Liter</strong> untuk sisa ${remainderPlants} tanaman.`;
+  }
+
+  scheduleContainer.innerHTML='';
+  SCHEDULE_HST.forEach(sHst=>{
+    const isCurrent=(hst>=sHst-3&&hst<=sHst+3);
+    const sDate=calculateDateFromHST(sHst);
+    const div=document.createElement('div');
+    div.className='item-row'+(isCurrent?' active':'');
+    div.innerHTML=`<div><div class="item-title">${sHst} HST <span style="font-size:10px;color:var(--text-light);">(${sDate})</span></div><div class="item-sub">${isCurrent?'⭐ Aplikasi sekitar periode ini':'Aplikasi rutin'}</div></div><button onclick="setHST(${sHst})" class="btn-step" style="width:auto;padding:0 10px;font-size:10px;">Pilih</button>`;
+    scheduleContainer.appendChild(div);
+  });
+
+  const scale=totalAir/16;
+  recipeContainer.innerHTML='';
+  currentCopyText=`🌶 DOSIS PUPUK CABAI (${hst} HST)\nPopulasi: ${pohon} pohon | Total air: ${totalAir.toFixed(1)} L\nEmber: ${emberVol} L | Butuh ${totalEmber.toFixed(1)} ember\nFase: ${data.badge}\n---\n`;
+  data.items20L.forEach(item=>{
+    const totalGram=Math.round(item.baseGram*scale);
+    currentCopyText+=`• ${item.name}: ${totalGram} ${item.unit} (≈${item.sdm} per 16L)\n`;
+    const el=document.createElement('div');
+    el.className='item-row';
+    el.innerHTML=`<div><div class="item-title">${item.name}</div><div class="item-sub">Takaran: ${item.sdm} / 16L</div></div><div class="item-val">${totalGram} ${item.unit}</div>`;
+    recipeContainer.appendChild(el);
+  });
+
+  recommendationGrid.innerHTML='';
+  data.recommendations.forEach(rec=>{
+    const card=document.createElement('div');
+    card.className='rec-card';
+    card.innerHTML=`<div class="rec-type">${rec.type}</div><div class="rec-name">${rec.name}</div><div class="rec-desc">${rec.desc}</div>`;
+    recommendationGrid.appendChild(card);
+  });
+  persist();
+}
+
+/* ===== RENDER SIMULASI BELANJA ===== */
+function renderSimulation(){
+  const hst=parseInt(hstRange.value)||15;
+  const pohon=parseInt(pohonInput.value)||100;
+  const data=getPhaseData(hst);
+  const totalAir=pohon*data.volPerPohon;
+  const scale=totalAir/16;
+  const finance=getFinance();
+  const simTable=document.getElementById('simTable');
+  document.getElementById('simPohon').textContent=pohon;
+  if(!data.items20L.length){
+    simTable.innerHTML='<p style="font-size:10px;color:var(--text-light);text-align:center;padding:12px;">Tidak ada item</p>';
+    document.getElementById('simTotal').textContent='Rp 0';
+    return;
+  }
+  let html='';
+  data.items20L.forEach(item=>{
+    const totalNeedBase=item.baseGram*scale;
+    const isSolid=item.unit==='g';
+    const baseUnit=isSolid?'g':'ml';
+    const bigUnit=isSolid?'kg':'L';
+
+    let needDisplay='';
+    if(totalNeedBase>=1000){
+      needDisplay=(totalNeedBase/1000).toFixed(2)+' '+bigUnit;
+    }else{
+      needDisplay=Math.round(totalNeedBase)+' '+baseUnit;
+    }
+
+    let saved=finance.fertPrices[item.name];
+    let savedPrice=0;
+    let savedUnit=bigUnit;
+    if(typeof saved==='number'){
+      savedPrice=saved;
+    }else if(saved&&typeof saved==='object'){
+      savedPrice=saved.price;
+      savedUnit=saved.unit;
+    }
+
+    const subtotal=calcSubtotal(totalNeedBase,savedPrice,savedUnit,isSolid);
+    const itemNameEsc=item.name.replace(/"/g,'&quot;');
+
+    html+=`<div class="sim-item">
+      <div class="sim-item-name">${item.name}</div>
+      <div class="sim-item-need">${needDisplay}</div>
+      <div class="sim-input-group">
+        <input type="number" class="sim-price" value="${savedPrice||''}" placeholder="Harga" data-item="${itemNameEsc}" data-need="${totalNeedBase}" data-solid="${isSolid}" oninput="updateSimPrice(this)" aria-label="Harga ${item.name}">
+        <select class="sim-unit" data-item="${itemNameEsc}" data-need="${totalNeedBase}" data-solid="${isSolid}" onchange="updateSimPrice(this)" aria-label="Satuan harga">
+          <option value="${bigUnit}" ${savedUnit===bigUnit?'selected':''}>Rp/${bigUnit}</option>
+          <option value="${baseUnit}" ${savedUnit===baseUnit?'selected':''}>Rp/${baseUnit}</option>
+        </select>
+      </div>
+      <div class="sim-cost">${formatRupiah(subtotal)}</div>
+      <button class="btn-step sim-add" onclick="addSingleSim(this)" aria-label="Tambah ${item.name}">+</button>
+    </div>`;
+  });
+  simTable.innerHTML=html;
+  updateSimTotal();
+}
+
+function calcSubtotal(needBase,price,unit,isSolid){
+  if(price<=0)return 0;
+  const bigUnit=isSolid?'kg':'L';
+  if(unit===bigUnit){
+    return (needBase/1000)*price;
+  }else{
+    return needBase*price;
+  }
+}
+
+function updateSimPrice(input){
+  const itemName=input.dataset.item;
+  const needBase=parseFloat(input.dataset.need)||0;
+  const isSolid=input.dataset.solid==='true';
+  const row=input.closest('.sim-item');
+  const priceInput=row.querySelector('.sim-price');
+  const unitSelect=row.querySelector('.sim-unit');
+  const price=parseFloat(priceInput.value)||0;
+  const unit=unitSelect.value;
+
+  const finance=getFinance();
+  finance.fertPrices[itemName]={price,unit};
+  const subtotal=calcSubtotal(needBase,price,unit,isSolid);
+  row.querySelector('.sim-cost').textContent=formatRupiah(subtotal);
+  updateSimTotal();
+  persist();
+}
+
+function updateSimTotal(){
+  let total=0;
+  document.querySelectorAll('.sim-item').forEach(row=>{
+    const priceInput=row.querySelector('.sim-price');
+    const unitSelect=row.querySelector('.sim-unit');
+    const needBase=parseFloat(priceInput.dataset.need)||0;
+    const isSolid=priceInput.dataset.solid==='true';
+    const price=parseFloat(priceInput.value)||0;
+    const unit=unitSelect.value;
+    total+=calcSubtotal(needBase,price,unit,isSolid);
+  });
+  document.getElementById('simTotal').textContent=formatRupiah(total);
+}
+
+function addSingleSim(btn){
+  const row=btn.closest('.sim-item');
+  const priceInput=row.querySelector('.sim-price');
+  const unitSelect=row.querySelector('.sim-unit');
+  const name=priceInput.dataset.item;
+  const needBase=parseFloat(priceInput.dataset.need)||0;
+  const isSolid=priceInput.dataset.solid==='true';
+  const price=parseFloat(priceInput.value)||0;
+  const unit=unitSelect.value;
+  
+  if(price<=0)return showToast('Isi harga dulu!',true);
+
+  const subtotal=calcSubtotal(needBase,price,unit,isSolid);
+
+  const finance=getFinance();
+  finance.expenses.push({
+    id:Date.now()+Math.random(),
+    date:toISO(new Date()),
+    cat:'pupuk',
+    name:name,
+    qty:needBase>=1000?(needBase/1000).toFixed(2):Math.round(needBase),
+    unit:needBase>=1000?(isSolid?'kg':'L'):(isSolid?'g':'ml'),
+    price:price,
+    total:subtotal
+  });
+  persist();renderFinance();
+  showToast('Ditambahkan ✓');
+}
+
+function addAllSimToExpenses(){
+  const finance=getFinance();
+  let count=0;
+  document.querySelectorAll('.sim-item').forEach(row=>{
+    const priceInput=row.querySelector('.sim-price');
+    const unitSelect=row.querySelector('.sim-unit');
+    const name=priceInput.dataset.item;
+    const needBase=parseFloat(priceInput.dataset.need)||0;
+    const isSolid=priceInput.dataset.solid==='true';
+    const price=parseFloat(priceInput.value)||0;
+    const unit=unitSelect.value;
+    
+    if(price>0&&needBase>0){
+      const subtotal=calcSubtotal(needBase,price,unit,isSolid);
+      finance.expenses.push({
+        id:Date.now()+Math.random(),
+        date:toISO(new Date()),
+        cat:'pupuk',
+        name:name,
+        qty:needBase>=1000?(needBase/1000).toFixed(2):Math.round(needBase),
+        unit:needBase>=1000?(isSolid?'kg':'L'):(isSolid?'g':'ml'),
+        price:price,
+        total:subtotal
+      });
+      count++;
+    }
+  });
+  if(count===0)return showToast('Isi harga dulu!',true);
+  persist();renderFinance();
+  showToast(`${count} item ditambahkan ✓`);
+}
+
+/* ===== RENDER KEUANGAN ===== */
+function renderFinance(){
+  const finance=getFinance();
+  const totalIn=finance.revenues.reduce((s,r)=>s+r.total,0);
+  const totalOut=finance.expenses.reduce((s,e)=>s+e.total,0);
+  const balance=totalIn-totalOut;
+
+  document.getElementById('finIn').textContent=formatRupiah(totalIn);
+  document.getElementById('finInSub').textContent=finance.revenues.length+' penjualan';
+  document.getElementById('finOut').textContent=formatRupiah(totalOut);
+  document.getElementById('finOutSub').textContent=finance.expenses.length+' pembelian';
+  document.getElementById('finBal').textContent=formatRupiah(balance);
+
+  const balCard=document.getElementById('finBalCard');
+  balCard.classList.remove('profit','loss');
+  if(finance.revenues.length||finance.expenses.length){
+    if(balance>=0){balCard.classList.add('profit');document.getElementById('finBalSub').textContent='✅ Untung';}
+    else{balCard.classList.add('loss');document.getElementById('finBalSub').textContent='⚠️ Rugi';}
+  }else{
+    document.getElementById('finBalSub').textContent='Belum ada transaksi';
+  }
+
+  const expList=document.getElementById('expList');
+  if(!finance.expenses.length){expList.innerHTML='<p style="font-size:10px;color:var(--text-light);text-align:center;padding:12px;">Belum ada pengeluaran</p>';}
+  else{
+    expList.innerHTML=finance.expenses.slice().reverse().map(e=>`
+      <div class="ledger-row">
+        <div><div class="lr-name">${e.name}</div><div class="lr-detail">${e.qty} ${e.unit} × ${formatRupiah(e.price)} · ${e.date}</div></div>
+        <div class="lr-val">${formatRupiah(e.total)}</div>
+        <button class="lr-del" onclick="deleteExpense(${e.id})" aria-label="Hapus">✕</button>
+      </div>`).join('');
+  }
+  document.getElementById('expTotal').textContent=formatRupiah(totalOut);
+
+  const revList=document.getElementById('revList');
+  if(!finance.revenues.length){revList.innerHTML='<p style="font-size:10px;color:var(--text-light);text-align:center;padding:12px;">Belum ada penjualan</p>';}
+  else{
+    revList.innerHTML=finance.revenues.slice().reverse().map(r=>`
+      <div class="ledger-row">
+        <div><div class="lr-name">${r.note||'Penjualan cabai'}</div><div class="lr-detail">${r.kg} kg × ${formatRupiah(r.price)} · ${r.date}</div></div>
+        <div class="lr-val">${formatRupiah(r.total)}</div>
+        <button class="lr-del" onclick="deleteRevenue(${r.id})" aria-label="Hapus">✕</button>
+      </div>`).join('');
+  }
+  document.getElementById('revTotal').textContent=formatRupiah(totalIn);
+
+  const insight=document.getElementById('financeInsight');
+  if(finance.revenues.length||finance.expenses.length){
+    let msg='';
+    if(balance>=0){
+      msg=`✅ <strong>Untung ${formatRupiah(balance)}</strong>. `;
+      if(totalIn>0){msg+=`Margin: ${(balance/totalIn*100).toFixed(1)}%. `;}
+    }else{
+      msg=`⚠️ <strong>Rugi ${formatRupiah(Math.abs(balance))}</strong>. `;
+      const totalKg=finance.revenues.reduce((s,r)=>s+r.kg,0);
+      if(totalKg>0){
+        const avgPrice=totalIn/totalKg;
+        const needKg=Math.ceil(Math.abs(balance)/avgPrice);
+        msg+=`Butuh jual ${needKg} kg lagi di harga rata-rata ${formatRupiah(avgPrice)}/kg untuk BEP.`;
+      }else{
+        msg+='Belum ada penjualan untuk hitung BEP.';
+      }
+    }
+    insight.innerHTML=msg;
+    insight.style.display='block';
+    insight.className=balance>=0?'poc-ok':'poc-warn';
+  }else{
+    insight.style.display='none';
+  }
+}
+
+/* ===== CRUD KEUANGAN ===== */
+function addExpense(){
+  const cat=document.getElementById('expCat').value;
+  const name=document.getElementById('expName').value.trim();
+  const qty=parseFloat(document.getElementById('expQty').value);
+  const unit=document.getElementById('expUnit').value;
+  const price=parseFloat(document.getElementById('expPrice').value);
+  if(!name)return showToast('Nama item wajib diisi',true);
+  if(!qty||qty<=0)return showToast('Qty harus > 0',true);
+  if(!price||price<=0)return showToast('Harga harus > 0',true);
+  const finance=getFinance();
+  finance.expenses.push({id:Date.now()+Math.random(),date:toISO(new Date()),cat,name,qty,unit,price,total:qty*price});
+  document.getElementById('expName').value='';
+  document.getElementById('expQty').value='';
+  document.getElementById('expPrice').value='';
+  persist();renderFinance();
+  showToast('Pengeluaran ditambahkan ✓');
+}
+function addRevenue(){
+  const date=document.getElementById('revDate').value||toISO(new Date());
+  const kg=parseFloat(document.getElementById('revKg').value);
+  const price=parseFloat(document.getElementById('revPrice').value);
+  const note=document.getElementById('revNote').value.trim();
+  if(!kg||kg<=0)return showToast('Berat harus > 0',true);
+  if(!price||price<=0)return showToast('Harga harus > 0',true);
+  const finance=getFinance();
+  finance.revenues.push({id:Date.now()+Math.random(),date,kg,price,note,total:kg*price});
+  document.getElementById('revKg').value='';
+  document.getElementById('revPrice').value='';
+  document.getElementById('revNote').value='';
+  persist();renderFinance();
+  showToast('Penjualan ditambahkan ✓');
+}
+function deleteExpense(id){
+  const finance=getFinance();
+  finance.expenses=finance.expenses.filter(e=>e.id!==id);
+  persist();renderFinance();
+  showToast('Pengeluaran dihapus');
+}
+function deleteRevenue(id){
+  const finance=getFinance();
+  finance.revenues=finance.revenues.filter(r=>r.id!==id);
+  persist();renderFinance();
+  showToast('Penjualan dihapus');
+}
+function resetFinance(){
+  if(!confirm('Hapus semua data keuangan? Tidak bisa dibatalkan.'))return;
+  state.finance={expenses:[],revenues:[],fertPrices:{}};
+  persist();renderFinance();renderSimulation();
+  showToast('Data keuangan direset');
+}
+
+/* ===== INTERAKSI ===== */
+function adjustHST(delta){let val=parseInt(hstRange.value)+delta;val=Math.max(1,Math.min(150,val));hstRange.value=val;render();}
+function setHST(val){hstRange.value=val;render();}
+function syncHSTFromDate(){
+  const iso=tglTanamInput.value;if(!iso)return;
+  const start=parseISO(iso);const now=new Date();now.setHours(0,0,0,0);start.setHours(0,0,0,0);
+  hstRange.value=Math.max(1,Math.min(150,daysBetween(start,now)));
+  render();
+}
+
+/* ===== CLIPBOARD ===== */
+function copyToClipboard(){
+  const showSuccess=()=>showToast('Resep berhasil disalin!');
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(currentCopyText).then(showSuccess).catch(()=>fallbackCopy(showSuccess));
+  }else{fallbackCopy(showSuccess);}
+}
+function fallbackCopy(onSuccess){
+  const ta=document.createElement('textarea');
+  ta.value=currentCopyText;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand('copy');onSuccess();}catch(e){prompt('Salin manual:',currentCopyText);}
+  document.body.removeChild(ta);
+}
+
+/* ===== LISTENERS ===== */
+hstRange.addEventListener('input',render);
+pohonInput.addEventListener('input',()=>{render();renderPOCCalc();});
+emberInput.addEventListener('input',render);
+tglTanamInput.addEventListener('change',()=>{syncHSTFromDate();render();});
+['pocDosis','pocRasio','pocFreq'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{renderPOCCalc();persist();});
+});
+document.getElementById('filterRow').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');activePestFilter=btn.dataset.cat;renderPestCatalog();
+});
+document.getElementById('searchPest').addEventListener('input',e=>{
+  pestSearchQuery=e.target.value;renderPestCatalog();
+});
+
+/* ===== INIT ===== */
+loadState();
+render();
+renderDisease();
+renderPestCatalog();
+renderRotationPlan();
+renderPOCCalc();
+renderFinance();
+renderSimulation();
+</script>
+</body>
+</html>
